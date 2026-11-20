@@ -28,5 +28,20 @@ npm run dev
 
 ## UI
 
-**泳道织机**：顶栏品牌 + 顶栏菜单（织机 / 收流 / 搁置 / 核证 / 切窗）+ 横向会话串珠。  
+**泳道织机**：顶栏品牌 + 顶栏菜单（织机 / 收流 / 搁置 / 核证 / 切换核证 / 切窗）+ 横向会话串珠。  
 不用底栏导航、不用三栏测绘板、不用左轨编号、不用流程 ribbon。
+
+## 唯一切换审计（single_open_cap）
+
+关旧开新在同一事务内完成四步，缺一回滚：关旧写闸（`sessions.status open→closed` + 关闭审计 + 终态证明）→ 开新承接 → `visitor_open` 指针改挂 → 写不可变切换审计边 `session_switch_audits`（访客、旧会话、新会话、关闭审计键、时刻）。旧会话写闸由服务层 `ensure_session_writable()` 与库层触发器 `hits_reject_closed_session` 双重关闭，closed 会话不可追加。
+
+只读核证接口：
+
+| 接口 | 内容 |
+| --- | --- |
+| `GET /api/open-cap/proof` | open 唯一三重不变量 |
+| `GET /api/open-cap/current` | 现行闸一览 |
+| `GET /api/open-cap/audits` | 关闭审计一览 |
+| `GET /api/open-cap/switches` | 切换审计边一览（可按 `visitor_id` 过滤） |
+| `GET /api/open-cap/switch-proof` | 切换核证：逐边核访客/旧/新/写闸态/关闭审计键并给结论 |
+

@@ -26,6 +26,13 @@ export const api = {
   openCapProof: () => req('/api/open-cap/proof'),
   openCapCurrent: () => req('/api/open-cap/current'),
   openCapAudits: () => req('/api/open-cap/audits'),
+  openCapSwitches: () => req('/api/open-cap/switches'),
+  openCapSwitchProof: (visitorId) =>
+    req(
+      visitorId
+        ? `/api/open-cap/switch-proof?visitor_id=${encodeURIComponent(visitorId)}`
+        : '/api/open-cap/switch-proof',
+    ),
   proofs: (sessionId) =>
     req(sessionId ? `/api/session-proofs?session_id=${encodeURIComponent(sessionId)}` : '/api/session-proofs'),
   settings: () => req('/api/settings'),

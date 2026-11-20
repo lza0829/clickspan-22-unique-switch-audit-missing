@@ -34,8 +34,10 @@ def run_batch(fixture_name: str | None = None) -> dict:
                     "INSERT INTO visitors(id, label, created_at) VALUES (?,?,?)",
                     (vid, hit.get("visitor_label") or vid, _now()),
                 )
-            # 单 open 闸：有闸挂现行 open；强制新会话则同事务关旧/开新/改挂
+            # 单 open 闸：有闸挂现行 open；强制新会话则同事务关旧/开新/改挂/写切换边
             sid = single_open_cap.resolve_session_id(conn, vid, hit)
+            # 旧会话写闸（服务层）：closed 会话不可追加，违则整批回滚
+            single_open_cap.ensure_session_writable(conn, sid)
             conn.execute(
                 """
                 INSERT OR IGNORE INTO hits(id, visitor_id, session_id, event_ts, page_path, event_name, channel)

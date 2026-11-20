@@ -1,4 +1,4 @@
-"""single_open_cap 只读核证接口：open 唯一证明 / 现行闸 / 关闭审计。"""
+"""single_open_cap 只读核证接口：open 唯一证明 / 现行闸 / 关闭审计 / 切换核证。"""
 
 from fastapi import APIRouter
 
@@ -34,5 +34,25 @@ def open_cap_audits():
     conn = connect()
     try:
         return single_open_cap.list_audits(conn)
+    finally:
+        conn.close()
+
+
+@router.get("/switches")
+def open_cap_switches(visitor_id: str | None = None):
+    """切换审计边一览：旧→新（访客、旧/新会话、关闭审计键、时刻）。只读。"""
+    conn = connect()
+    try:
+        return single_open_cap.list_switches(conn, visitor_id)
+    finally:
+        conn.close()
+
+
+@router.get("/switch-proof")
+def open_cap_switch_proof(visitor_id: str | None = None):
+    """切换核证页（基线所无，只读）：逐边核访客/旧/新/写闸态/关闭审计键并给结论。"""
+    conn = connect()
+    try:
+        return single_open_cap.switch_proof(conn, visitor_id)
     finally:
         conn.close()

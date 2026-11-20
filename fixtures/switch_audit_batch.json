@@ -1,0 +1,11 @@
+{
+  "batch_id": "B-switch-audit",
+  "hits": [
+    {"id": "H-sw-1", "visitor_id": "V-1001", "event_ts": "2026-11-18T10:00:00Z", "page_path": "/campaign/a", "event_name": "view", "visitor_label": "访客甲", "force_new_session": true, "new_session_reason": "sdk_reconnect"},
+    {"id": "H-sw-2", "visitor_id": "V-1001", "event_ts": "2026-11-18T10:02:00Z", "page_path": "/campaign/b", "event_name": "view"},
+    {"id": "H-sw-3", "visitor_id": "V-1001", "event_ts": "2026-11-18T11:00:00Z", "page_path": "/landing", "event_name": "view", "force_new_session": true, "new_session_reason": "relanding"},
+    {"id": "H-sw-4", "visitor_id": "V-1002", "event_ts": "2026-11-18T11:30:00Z", "page_path": "/promo", "event_name": "view", "visitor_label": "访客乙", "force_new_session": true, "new_session_reason": "sdk_reconnect"},
+    {"id": "H-sw-5", "visitor_id": "V-1002", "event_ts": "2026-11-18T11:32:00Z", "page_path": "/promo/2", "event_name": "view"},
+    {"id": "H-sw-6", "visitor_id": "V-1005", "event_ts": "2026-11-18T12:00:00Z", "page_path": "/home", "event_name": "view", "visitor_label": "访客戊"}
+  ]
+}
